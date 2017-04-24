@@ -1,6 +1,6 @@
 CC = gcc
 SHELL = /bin/sh
-CFLAGS = -std=c99 -Wall
+CFLAGS = -g -std=c99 -Wall
 LDLIBS = -lpthread
 SRCDIR = src
 OBJDIR = obj

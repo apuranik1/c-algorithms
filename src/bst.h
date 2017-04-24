@@ -1,13 +1,12 @@
 #ifndef ALG_BST_H_
 #define ALG_BST_H_
 
-struct _bst_node {
-    struct _bst_node* left_child;
-    struct _bst_node* right_child;
-    struct _bst_node* parent;
+typedef struct bst_node {
+    struct bst_node* left_child;
+    struct bst_node* right_child;
+    struct bst_node* parent;
     int value;
-};
-typedef struct _bst_node bst_node;
+} bst_node;
 
 /*
 typedef struct {

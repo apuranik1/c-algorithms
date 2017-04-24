@@ -7,4 +7,6 @@ void mergesort(void* arr, size_t nitems, size_t width, int (*cmp)(const void*, c
 void int_mergesort(int* arr, int size);
 void int_heapsort(int* arr, int size);
 
+void* binary_search(void* item, void* arr, size_t nitems, size_t width, int (*cmp)(const void*, const void*));
+
 #endif

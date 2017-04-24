@@ -9,8 +9,7 @@ typedef struct {
 } alg_interval;
 
 typedef struct {
-    int start;
-    int end;
+    alg_interval interval;
     int weight;
 } alg_weighted_interval;
 

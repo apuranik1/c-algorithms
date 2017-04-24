@@ -4,6 +4,7 @@
 #include "sort.h"
 #include "heap.h"
 
+
 void mergesort(void* arr, size_t nitems, size_t size, int (*cmp)(const void*, const void*)) {
 
     if (nitems <= 1) {
@@ -18,31 +19,29 @@ void mergesort(void* arr, size_t nitems, size_t size, int (*cmp)(const void*, co
     void* dest = malloc(size * nitems);
     void* current_dest = dest;
     void* pos1 = arr;
-    void* middle_p = arr+size*midpoint;
+    void* middle_p = (char*)arr + size*midpoint;
     void* pos2 = middle_p;
-    void* end = arr + nitems;
+    void* end = (char*)arr + size*nitems;
     while (pos1 != middle_p && pos2 != end) {
         int result = cmp(pos1, pos2);
         if (result <= 0) {
             memcpy(current_dest, pos1, size);
-            current_dest = (char*)current_dest + size;
             pos1 = (char*)pos1 + size;
         } else {
             memcpy(current_dest, pos2, size);
-            current_dest = (char*)current_dest + size;
             pos2 = (char*)pos2 + size;
         }
+        current_dest = (char*)current_dest + size;
     }
     /* copy anything we haven't handled yet */
     size_t len1 = (char*)middle_p - (char*)pos1;
     memcpy(current_dest, pos1, len1);
-    current_dest = current_dest + len1;
+    current_dest = (char*)current_dest + len1;
 
     size_t len2 = (char*)end - (char*)pos2;
     memcpy(current_dest, pos2, len2);
     /* copy back from dest to original array */
 
-    int* copy_pos = arr;
     current_dest = dest;
     memcpy(arr, dest, size * nitems);
 
@@ -97,4 +96,20 @@ void int_heapsort(int* arr, int size) {
         arr[i] = int_heappop(arr, i+1);
 }
 
-int int_binary_search(int* arr, size_t size)
+/* Return the location of an item in a sorted array, or the location at which the item should go */
+void* binary_search(void* item, void* arr, size_t nitems, size_t width,
+                    int (*cmp)(const void*, const void*)) {
+    size_t upper = nitems;
+    size_t lower = 0;
+    while (upper > lower) {
+        size_t midpoint = (upper + lower) / 2;
+        int comparison = (*cmp)(item, (char*)arr + midpoint*width);
+        if (comparison < 0) {
+            upper = midpoint;
+        } else if (comparison < 0) {
+            lower = midpoint + 1;
+        } else
+            return (char*)arr + midpoint*width;
+    }
+    return (char*)arr + lower*width;
+}
